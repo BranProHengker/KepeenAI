@@ -12,7 +12,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'sans-serif'], 
-        mono: ['Space Mono', 'Monaco', 'monospace'],
+        mono: ['Fragment Mono', 'Monaco', 'monospace'],
       },
     },
   },

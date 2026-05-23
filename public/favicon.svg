@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="none" stroke="#0B1012" stroke-width="18" stroke-linecap="square">
+    <!-- Stem -->
+    <line x1="28" y1="20" x2="28" y2="80" />
+    <!-- Top arm -->
+    <line x1="28" y1="60" x2="80" y2="20" />
+    <!-- Bottom arm -->
+    <line x1="48" y1="45" x2="75" y2="72" />
+  </g>
+  <!-- Cursor Head -->
+  <polygon points="100,100 52,90 70,72 90,52" fill="#0B1012" />
+</svg>

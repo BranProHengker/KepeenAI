@@ -1,0 +1,29 @@
+---
+import '@/styles/global.css';
+import Uploader from '../components/Uploader';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>kepeenAI</title>
+    <!-- Importing Inter and Space Mono from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-white text-charcoal min-h-screen">
+    <main class="max-w-[1200px] mx-auto px-10 py-[72px]">
+      <h1 class="text-[57.6px] leading-[57.6px] font-sans text-deep-black mb-8">kepeenAI</h1>
+      <p class="font-sans text-[16px] leading-[24px] max-w-2xl mb-14 text-charcoal">
+        Upload your desk setup or workspace. Our AI will analyze the structural integrity, roast your aesthetic choices, and provide a premium architectural upgrade plan.
+      </p>
+      
+      <!-- React Uploader Component -->
+      <Uploader client:load />
+    </main>
+  </body>
+</html>

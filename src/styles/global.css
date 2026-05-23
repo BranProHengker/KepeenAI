@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-charcoal font-sans;
+  }
+  
+  /* Enforce sharp corners everywhere per DESIGN.md */
+  * {
+    border-radius: 0px !important;
+  }
+}

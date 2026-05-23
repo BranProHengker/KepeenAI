@@ -19,16 +19,16 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 - **Deep Black** (`#0B1012`): High-contrast headings and emphasis elements; used sparingly for maximum impact
 
 ### Neutral Scale
-- **White** (`#FFFFFF`): Primary background, card surfaces, text on dark backgrounds
+- **White** (`#F1F1F1`): Primary background, card surfaces, text on dark backgrounds
 - **Warm Beige** (`#F3F0EC`): Subtle background tint, secondary surface layers
 - **Taupe** (`#D4CEC6`): Border accents, dividers, soft text on light backgrounds
 
 ### Interactive
 - **Button Dark** (`#0B1012`): Primary button fill, high-contrast CTAs
-- **Button Text Light** (`#FFFFFF`): Text on dark button backgrounds
+- **Button Text Light** (`#F1F1F1`): Text on dark button backgrounds
 
 ### Surface & Borders
-- **Surface Default** (`#FFFFFF`): Primary card and container backgrounds
+- **Surface Default** (`#F1F1F1`): Primary card and container backgrounds
 - **Surface Subtle** (`#F3F0EC`): Secondary container tint
 - **Border Neutral** (`#D4CEC6`): Subtle dividers and border strokes
 
@@ -64,7 +64,7 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 
 #### Primary Button
 - **Background:** `#0B1012`
-- **Text Color:** `#FFFFFF`
+- **Text Color:** `#F1F1F1`
 - **Font:** Aeonik Mono, `10.8px`, weight `500`
 - **Padding:** `13.5px 21.6px`
 - **Border Radius:** `0px`
@@ -88,7 +88,7 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 
 #### Icon Button
 - **Background:** `transparent`
-- **Icon Color:** `#FFFFFF`
+- **Icon Color:** `#F1F1F1`
 - **Font Size:** `9px`
 - **Padding:** `0px`
 - **Dimensions:** `45px × 45px`
@@ -100,7 +100,7 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 ### Cards & Containers
 
 #### Standard Card
-- **Background:** `#FFFFFF`
+- **Background:** `#F1F1F1`
 - **Border:** `1px solid #D4CEC6`
 - **Border Radius:** `0px`
 - **Padding:** `32px`
@@ -116,7 +116,7 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 - **Text Color:** `#212325`
 
 #### Hero Container
-- **Background:** `#FFFFFF`
+- **Background:** `#F1F1F1`
 - **Min Height:** `400px`
 - **Padding:** `72px 40px`
 - **Display:** Flex, centered
@@ -125,7 +125,7 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 ### Inputs & Forms
 
 #### Text Input
-- **Background:** `#FFFFFF`
+- **Background:** `#F1F1F1`
 - **Border:** `1px solid #D4CEC6`
 - **Border Radius:** `0px`
 - **Padding:** `12px 16px`
@@ -144,20 +144,20 @@ Fluid Glass embodies a minimalist, contemporary aesthetic centered on precision 
 
 #### Main Navigation Menu
 - **Background:** `transparent`
-- **Text Color:** `#FFFFFF`
+- **Text Color:** `#F1F1F1`
 - **Font:** Aeonik Pro, `9px`, weight `400`
 - **Padding:** `0px`
 - **Line Height:** `normal`
 - **Spacing Between Items:** `32px`
-- **Active Link:** Text color `#FFFFFF`, underline `1px solid #FFFFFF`
+- **Active Link:** Text color `#F1F1F1`, underline `1px solid #F1F1F1`
 - **Hover State:** Text opacity `0.7`
 
 #### Navigation Link
-- **Text Color:** `#FFFFFF`
+- **Text Color:** `#F1F1F1`
 - **Font:** Aeonik Pro, `9px`, weight `400`
 - **Decoration:** none
-- **Hover State:** Opacity `0.7`, underline `1px solid #FFFFFF`
-- **Active State:** Underline `2px solid #FFFFFF`
+- **Hover State:** Opacity `0.7`, underline `1px solid #F1F1F1`
+- **Active State:** Underline `2px solid #F1F1F1`
 
 ## 5. Layout Principles
 
@@ -210,7 +210,7 @@ Generous negative space is fundamental to Fluid Glass's visual language. Whitesp
 - Employ generous whitespace; prioritize breathing room over content density
 - Use `#212325` as the default text color on light backgrounds for optimal contrast without harsh blacks
 - Group related elements with consistent `28px` to `32px` padding and spacing
-- Style primary CTAs with `#0B1012` background and `#FFFFFF` text for maximum visual hierarchy
+- Style primary CTAs with `#0B1012` background and `#F1F1F1` text for maximum visual hierarchy
 - Keep hover states subtle (opacity or soft shadow shifts) rather than dramatic color changes
 - Use Aeonik Mono exclusively for button labels, captions, and secondary headings to add technical precision
 
@@ -250,13 +250,13 @@ Generous negative space is fundamental to Fluid Glass's visual language. Whitesp
 
 ### Quick Color Reference
 - **Primary CTA / Button Fill:** Dark Charcoal (`#0B1012`)
-- **Button Text:** White (`#FFFFFF`)
+- **Button Text:** White (`#F1F1F1`)
 - **Primary Text / Body:** Dark Charcoal (`#212325`)
-- **Background / Surface:** White (`#FFFFFF`)
+- **Background / Surface:** White (`#F1F1F1`)
 - **Secondary Surface:** Warm Beige (`#F3F0EC`)
 - **Borders / Dividers:** Taupe (`#D4CEC6`)
 - **Heading Text:** Dark Charcoal (`#212325`)
-- **Navigation Text:** White (`#FFFFFF`)
+- **Navigation Text:** White (`#F1F1F1`)
 
 ### Iteration Guide
 
@@ -264,7 +264,7 @@ Generous negative space is fundamental to Fluid Glass's visual language. Whitesp
 
 2. **Typography is binary:** Use Aeonik Pro for narrative content (headings, body, links); use Aeonik Mono exclusively for buttons, captions, and metadata. Weight contrast (400 vs. 500/600) signals hierarchy.
 
-3. **Color palette is monochromatic-plus:** Dark charcoal (`#212325`), near-black (`#0B1012`), white (`#FFFFFF`), and warm neutrals (`#F3F0EC`, `#D4CEC6`). No additional colors. All new elements must use this palette.
+3. **Color palette is monochromatic-plus:** Dark charcoal (`#212325`), near-black (`#0B1012`), white (`#F1F1F1`), and warm neutrals (`#F3F0EC`, `#D4CEC6`). No additional colors. All new elements must use this palette.
 
 4. **Spacing is intentional and generous:** Base unit is `4px`. Never compress layouts; always use multiples of the scale (20px, 28px, 32px, 40px, 56px, 64px, 72px). Whitespace is a design feature.
 
@@ -272,10 +272,10 @@ Generous negative space is fundamental to Fluid Glass's visual language. Whitesp
 
 6. **Shadows are rare:** No shadows on static elements. Apply only to hover states of interactive components or floating elements (modals, dropdowns) with diffuse, soft shadows under `0.2` opacity.
 
-7. **Primary buttons are dark-filled, secondary buttons are text-only:** Primary = `#0B1012` background + `#FFFFFF` text + Aeonik Mono 10.8px 500. Secondary = transparent background + `#212325` text + no border or minimal underline.
+7. **Primary buttons are dark-filled, secondary buttons are text-only:** Primary = `#0B1012` background + `#F1F1F1` text + Aeonik Mono 10.8px 500. Secondary = transparent background + `#212325` text + no border or minimal underline.
 
-8. **Navigation and links on dark backgrounds use white:** `#FFFFFF` text on `#0B1012` or dark containers. Maintain `9px` font size and `normal` line height for nav items.
+8. **Navigation and links on dark backgrounds use white:** `#F1F1F1` text on `#0B1012` or dark containers. Maintain `9px` font size and `normal` line height for nav items.
 
 9. **Mobile breakpoint:** Below 768px, reduce all padding/margin to 75% of desktop scale, collapse multi-column grids to single column, stack navigation vertically, reduce font sizes 15–20%.
 
-10. **Form inputs mirror the component system:** `#FFFFFF` background, `1px solid #D4CEC6` border, `0px` border-radius, `12px 16px` padding, focus state adds `2px rgba(33, 35, 37, 0.1)` outline shadow, no visual focus ring.
+10. **Form inputs mirror the component system:** `#F1F1F1` background, `1px solid #D4CEC6` border, `0px` border-radius, `12px 16px` padding, focus state adds `2px rgba(33, 35, 37, 0.1)` outline shadow, no visual focus ring.

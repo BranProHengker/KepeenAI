@@ -1,0 +1,34 @@
+---
+import '@/styles/global.css';
+import Uploader from '../components/Uploader';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>kepeenAI - App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-white text-charcoal min-h-screen">
+    <!-- Navbar / Header -->
+    <header class="border-b border-taupe bg-beige">
+      <div class="max-w-[1200px] mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <img src="/favicon.svg" alt="kepeenAI Logo" class="w-8 h-8" />
+          <span class="text-[24px] font-sans font-bold text-deep-black tracking-tight">kepeenAI</span>
+        </a>
+        <div class="font-mono text-[12px] uppercase tracking-wider text-taupe">AI Setup Architect</div>
+      </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-4 md:px-10 py-8 md:py-[40px]">
+      <!-- React Uploader Component -->
+      <Uploader client:load />
+    </main>
+  </body>
+</html>

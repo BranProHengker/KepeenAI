@@ -14,13 +14,13 @@ export default function Uploader() {
             onClick={() => setMode('roast')}
             className={`px-4 py-2 transition-all ${mode === 'roast' ? 'bg-deep-black text-white' : 'text-charcoal hover:bg-white'}`}
           >
-            🔥 ROAST SETUP
+            ROAST SETUP
           </button>
           <button 
             onClick={() => setMode('compare')}
             className={`px-4 py-2 transition-all ${mode === 'compare' ? 'bg-deep-black text-white' : 'text-charcoal hover:bg-white'}`}
           >
-            ⚖️ COMPARE BEFORE/AFTER
+            COMPARE BEFORE/AFTER
           </button>
         </div>
       </div>

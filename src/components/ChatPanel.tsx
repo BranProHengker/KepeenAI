@@ -180,6 +180,25 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
         })()}
       </div>
 
+      {/* Top Animated Progress Bar when loading */}
+      {loading && (
+        <div className="w-full h-[3px] bg-taupe/20 overflow-hidden relative">
+          <div 
+            className="h-full bg-deep-black absolute"
+            style={{
+              width: '30%',
+              animation: 'loadingBar 1.2s infinite linear'
+            }}
+          />
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes loadingBar {
+              0% { left: -30%; }
+              100% { left: 100%; }
+            }
+          `}} />
+        </div>
+      )}
+
       {/* Chat History */}
       <div className="flex-1 p-6 overflow-y-auto flex flex-col gap-10">
         {messages.length === 0 && pendingImagesCount > 0 && (
@@ -215,11 +234,17 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
         })}
 
         {loading && (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 animate-pulse">
              <span className="font-mono text-[10px] text-taupe tracking-widest font-bold uppercase">&gt; KEPEENAI</span>
-             <div className="flex items-center gap-4 text-charcoal bg-white/50 p-4 border border-taupe/30">
-               <MousePointer2 className="w-4 h-4 animate-[spin_2s_linear_infinite] text-deep-black" />
-               <span className="font-mono text-[12.6px] uppercase tracking-wider">Generating response...</span>
+             <div className="flex flex-col gap-3 p-4 border border-taupe/30 bg-white/50">
+               <div className="h-4 bg-taupe/20 w-3/4 rounded-sm"></div>
+               <div className="h-4 bg-taupe/20 w-5/6 rounded-sm"></div>
+               <div className="h-4 bg-taupe/20 w-2/3 rounded-sm"></div>
+               <div className="h-4 bg-taupe/20 w-1/2 rounded-sm"></div>
+               <div className="flex items-center gap-3 mt-2 text-charcoal">
+                 <MousePointer2 className="w-4 h-4 animate-spin text-deep-black" />
+                 <span className="font-mono text-[12.6px] uppercase tracking-wider">Analyzing & typing roast...</span>
+               </div>
              </div>
           </div>
         )}
@@ -272,8 +297,9 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            disabled={loading}
             placeholder={messages.length === 0 ? (mode === 'compare' ? "Ceritain perubahannya..." : "Describe your setup...") : "Reply to kepeenAI..."}
-            className="flex-1 bg-beige border border-taupe p-4 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black focus:ring-1 focus:ring-deep-black resize-none min-h-[60px] max-h-[150px] transition-all"
+            className={`flex-1 bg-beige border border-taupe p-4 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black focus:ring-1 focus:ring-deep-black resize-none min-h-[60px] max-h-[150px] transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             rows={input.split('\n').length > 1 ? Math.min(input.split('\n').length, 5) : 1}
           />
           <button

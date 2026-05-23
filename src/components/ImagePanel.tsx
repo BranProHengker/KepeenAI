@@ -33,7 +33,7 @@ export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset,
           {/* Slot 1: BEFORE */}
           {images[0] ? (
             <div className="relative group flex-1" data-slot="0">
-              <img src={images[0]} alt="Setup Before" className="w-full h-auto border border-taupe object-cover shadow-sm" />
+              <img src={images[0]} alt="Setup Before" className="w-full h-auto border border-taupe object-cover shadow-sm" loading="lazy" />
               <div className="absolute top-2 left-2 bg-deep-black/90 text-white px-2 py-1 font-mono text-[10px] uppercase shadow-sm">
                 📷 BEFORE
               </div>
@@ -61,7 +61,7 @@ export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset,
           {/* Slot 2: AFTER */}
           {images[1] ? (
             <div className="relative group flex-1" data-slot="1">
-              <img src={images[1]} alt="Setup After" className="w-full h-auto border border-taupe object-cover shadow-sm" />
+              <img src={images[1]} alt="Setup After" className="w-full h-auto border border-taupe object-cover shadow-sm" loading="lazy" />
               <div className="absolute top-2 left-2 bg-deep-black/90 text-white px-2 py-1 font-mono text-[10px] uppercase shadow-sm">
                 📸 AFTER
               </div>
@@ -90,7 +90,7 @@ export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset,
         <div className="flex flex-col gap-4">
           {images.map((img, idx) => (
             <div key={idx} className="relative group">
-              <img src={img} alt={`Setup ${idx+1}`} className="w-full h-auto border border-taupe object-cover shadow-sm" />
+              <img src={img} alt={`Setup ${idx+1}`} className="w-full h-auto border border-taupe object-cover shadow-sm" loading="lazy" />
               <div className="absolute top-2 left-2 bg-deep-black/90 text-white px-2 py-1 font-mono text-[10px] uppercase shadow-sm">
                 IMAGE {idx + 1}
               </div>

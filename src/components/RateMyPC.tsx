@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Message } from '../types';
 import { saveMessages, loadMessages } from '../lib/indexedDB';
 import ChatPanel from './ChatPanel';
-import { Cpu, RotateCcw } from 'lucide-react';
+import { Cpu, RotateCcw, Sparkles } from 'lucide-react';
 
 export default function RateMyPC() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -10,6 +10,8 @@ export default function RateMyPC() {
   const [cpu, setCpu] = useState('');
   const [vga, setVga] = useState('');
   const [ram, setRam] = useState('');
+  const [upgradeBudget, setUpgradeBudget] = useState('');
+  const [upgradeTarget, setUpgradeTarget] = useState('');
   const [loading, setLoading] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -102,6 +104,63 @@ export default function RateMyPC() {
     }
   };
 
+  const handleRequestUpgrade = async () => {
+    if (loading || !upgradeBudget.trim() || !upgradeTarget.trim()) return;
+
+    const userText = `[UPGRADE ADVISOR]\nBudget: ${upgradeBudget.trim()}\nTarget Goal: ${upgradeTarget.trim()}`;
+    const newMessage: Message = {
+      role: 'user',
+      text: userText
+    };
+
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    setUpgradeBudget('');
+    setUpgradeTarget('');
+    setLoading(true);
+
+    try {
+      const contents = updatedMessages.map(msg => {
+        return {
+          role: msg.role === 'model' ? 'model' : 'user',
+          parts: [{ text: msg.text }]
+        };
+      });
+
+      const response = await fetch('/api/roast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents, mode: 'rate-pc' }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setMessages(prev => [...prev, { role: 'model', text: `**SYSTEM ERROR:** ${data.error}` }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'model', text: data.text }]);
+      }
+    } catch (error: any) {
+      setMessages(prev => [...prev, { role: 'model', text: `**NETWORK ERROR:** ${error.message}` }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const handleUpgradeKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      handleRequestUpgrade();
+    }
+  };
+
   const handleReset = () => {
     setMessages([]);
     setCpu('');
@@ -126,6 +185,7 @@ export default function RateMyPC() {
                 type="text" 
                 value={cpu}
                 onChange={(e) => setCpu(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="e.g. Intel Core i5-12400F / AMD Ryzen 5 5600X"
                 className="bg-beige border border-taupe p-3 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black transition-all"
               />
@@ -137,6 +197,7 @@ export default function RateMyPC() {
                 type="text" 
                 value={vga}
                 onChange={(e) => setVga(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="e.g. NVIDIA RTX 3060 / AMD RX 6600 XT"
                 className="bg-beige border border-taupe p-3 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black transition-all"
               />
@@ -148,6 +209,7 @@ export default function RateMyPC() {
                 type="text" 
                 value={ram}
                 onChange={(e) => setRam(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="e.g. 16GB DDR4 / 32GB DDR5"
                 className="bg-beige border border-taupe p-3 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black transition-all"
               />
@@ -158,6 +220,7 @@ export default function RateMyPC() {
               <textarea 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Ada game spesifik yang mau ditanyain ngab?"
                 className="bg-beige border border-taupe p-3 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black transition-all resize-none min-h-[80px]"
               />
@@ -191,6 +254,49 @@ export default function RateMyPC() {
                 <span className="font-mono text-[10px] text-taupe uppercase block">RAM</span>
                 <span className="font-sans text-[16px] font-bold text-deep-black">{ram || '-'}</span>
               </div>
+            </div>
+
+            {/* Upgrade Advisor Section */}
+            <div className="border border-taupe p-6 flex flex-col gap-4 bg-white">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-deep-black" />
+                <h4 className="font-mono text-[11px] font-bold text-deep-black uppercase tracking-wider">Upgrade Advisor</h4>
+              </div>
+              <p className="font-sans text-[13px] text-charcoal leading-relaxed">
+                Punya budget lebih? AI bakal saranin komponen mana yang worth it buat lu upgrade sesuai target game/kerjaan lu.
+              </p>
+              
+              <div className="flex flex-col">
+                <label className="font-mono text-[9px] font-bold uppercase text-charcoal mb-1.5">Budget Maksimal</label>
+                <input 
+                  type="text" 
+                  value={upgradeBudget}
+                  onChange={(e) => setUpgradeBudget(e.target.value)}
+                  onKeyDown={handleUpgradeKeyDown}
+                  placeholder="e.g. Rp 3.000.000 / $250"
+                  className="bg-beige border border-taupe p-2.5 font-sans text-[14px] text-deep-black focus:outline-none focus:border-deep-black transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="font-mono text-[9px] font-bold uppercase text-charcoal mb-1.5">Target Upgrade (Game / Kebutuhan)</label>
+                <input 
+                  type="text" 
+                  value={upgradeTarget}
+                  onChange={(e) => setUpgradeTarget(e.target.value)}
+                  onKeyDown={handleUpgradeKeyDown}
+                  placeholder="e.g. Main Valorant 240fps / Video Editing"
+                  className="bg-beige border border-taupe p-2.5 font-sans text-[14px] text-deep-black focus:outline-none focus:border-deep-black transition-all"
+                />
+              </div>
+
+              <button 
+                onClick={handleRequestUpgrade}
+                disabled={loading || !upgradeBudget.trim() || !upgradeTarget.trim()}
+                className="bg-deep-black text-white py-2.5 font-mono text-[10.8px] font-bold uppercase hover:bg-charcoal transition-all disabled:opacity-50 tracking-wider flex items-center justify-center gap-1.5"
+              >
+                <span>GET RECOMMENDATIONS</span>
+              </button>
             </div>
 
             <button 

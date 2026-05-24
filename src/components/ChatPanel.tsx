@@ -106,7 +106,7 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       onSend();
     }
@@ -298,30 +298,35 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
 
       {/* Input Area */}
       <div className="border-t border-taupe bg-white p-4">
-        <div className="flex gap-4 items-end">
-          <textarea 
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={loading}
-            placeholder={messages.length === 0 ? (mode === 'compare' ? "Ceritain perubahannya..." : "Describe your setup...") : "Reply to kepeenAI..."}
-            className={`flex-1 bg-beige border border-taupe p-4 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black focus:ring-1 focus:ring-deep-black resize-none min-h-[60px] max-h-[150px] transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            rows={input.split('\n').length > 1 ? Math.min(input.split('\n').length, 5) : 1}
-          />
-          <button
-            onClick={onSend}
-            disabled={loading || (!input.trim() && pendingImagesCount === 0)}
-            className="bg-deep-black text-white h-[60px] px-8 font-mono text-[14px] font-bold tracking-wider hover:bg-charcoal active:bg-[#050607] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center border border-deep-black min-w-[140px]"
-          >
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <MousePointer2 className="w-4 h-4 animate-spin" />
-                LOADING
-              </span>
-            ) : (
-              "SEND"
-            )}
-          </button>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex gap-4 items-end">
+            <textarea 
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+              placeholder={messages.length === 0 ? (mode === 'compare' ? "Ceritain perubahannya..." : "Describe your setup...") : "Reply to kepeenAI..."}
+              className={`flex-1 bg-beige border border-taupe p-4 font-sans text-[16px] text-deep-black focus:outline-none focus:border-deep-black focus:ring-1 focus:ring-deep-black resize-none min-h-[60px] max-h-[150px] transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              rows={input.split('\n').length > 1 ? Math.min(input.split('\n').length, 5) : 1}
+            />
+            <button
+              onClick={onSend}
+              disabled={loading || (!input.trim() && pendingImagesCount === 0)}
+              className="bg-deep-black text-white h-[60px] px-8 font-mono text-[14px] font-bold tracking-wider hover:bg-charcoal active:bg-[#050607] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center border border-deep-black min-w-[140px]"
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <MousePointer2 className="w-4 h-4 animate-spin" />
+                  LOADING
+                </span>
+              ) : (
+                "SEND"
+              )}
+            </button>
+          </div>
+          <span className="font-mono text-[9px] text-taupe uppercase text-left self-start">
+            Press Ctrl+Enter to send
+          </span>
         </div>
       </div>
 

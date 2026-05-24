@@ -2,7 +2,7 @@
 
 > **Literally the most aesthetic and honest workspace auditor in the town, fr.**
 
-KepeenAI adalah asisten AI interaktif dengan vibe anak Jaksel yang super santai, gaul, tapi julid parah buat nge-roast kebersihan, kerapian, estetika meja kerja/kamar lu, sekaligus menilai spesifikasi PC lu dengan tier-rating yang akurat.
+KepeenAI adalah project berbasis **Astro framework** dengan asisten AI interaktif berkepribadian "anak Jaksel" yang super santai, gaul, tapi julid parah buat nge-roast kebersihan, kerapian, estetika meja kerja/kamar lu, sekaligus menilai spesifikasi PC lu dengan tier-rating yang akurat.
 
 ---
 
@@ -36,12 +36,12 @@ KepeenAI adalah asisten AI interaktif dengan vibe anak Jaksel yang super santai,
 
 ## 🛠️ Tech Stack
 
-* **Framework**: Astro (Static Site Generation & Server-Side Rendering)
-* **Frontend Library**: React & TypeScript
+* **Framework Utama**: Astro (Static Site Generation & Server-Side Rendering)
+* **Frontend Components**: React (integrated via `@astrojs/react`) & TypeScript
 * **Styling**: Tailwind CSS & Vanilla CSS (Fluid Glassmorphic theme)
 * **Animation & Icons**: Framer Motion & Lucide React
 * **Database**: IndexedDB (Local chat history persistence)
-* **AI Engine**: Google Gemini API via `@google/genai` SDK
+* **AI Engine**: Google Gemini API via `@google/genai` SDK (running on Astro API routes)
 
 ---
 

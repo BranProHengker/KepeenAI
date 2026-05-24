@@ -8,9 +8,10 @@ type ImagePanelProps = {
   onReset: () => void;
   disabled: boolean;
   mode?: 'roast' | 'compare';
+  children?: React.ReactNode;
 };
 
-export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset, disabled, mode = 'roast' }: ImagePanelProps) {
+export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset, disabled, mode = 'roast', children }: ImagePanelProps) {
   return (
     <div className={`w-full flex flex-col relative h-fit gap-4 ${mode === 'compare' ? '' : 'lg:sticky lg:top-8 lg:w-1/2'}`}>
       <div className="flex justify-between items-end mb-2">
@@ -117,6 +118,8 @@ export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset,
           </button>
         </div>
       )}
+      
+      {children}
       
       <button 
         onClick={onReset}

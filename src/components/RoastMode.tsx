@@ -5,6 +5,7 @@ import type { Message } from '../types';
 import { saveMessages, loadMessages } from '../lib/indexedDB';
 import ImagePanel from './ImagePanel';
 import ChatPanel from './ChatPanel';
+import DeskPlanner from './DeskPlanner';
 
 export default function RoastMode() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -160,6 +161,63 @@ export default function RoastMode() {
     }
   };
 
+  const handleDeskPlannerSubmit = async (deskSize: string, items: string, theme: string) => {
+    if (loading) return;
+
+    const userText = `[DESK PLANNER AI]\nDesk Size: ${deskSize.trim()}\nItems: ${items.trim()}\nTheme: ${theme.trim()}`;
+    const newMessage: Message = {
+      role: 'user',
+      text: userText,
+      images: allImages.length > 0 ? [allImages[allImages.length - 1]] : undefined
+    };
+
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    setLoading(true);
+
+    try {
+      const contents = updatedMessages.map(msg => {
+        const parts: any[] = [];
+        if (msg.images) {
+          msg.images.forEach(img => {
+            const base64Data = img.split(',')[1];
+            parts.push({
+              inlineData: {
+                data: base64Data,
+                mimeType: "image/jpeg"
+              }
+            });
+          });
+        }
+        if (msg.text) {
+          parts.push({ text: msg.text });
+        }
+        return {
+          role: msg.role === 'model' ? 'model' : 'user',
+          parts
+        };
+      });
+
+      const response = await fetch('/api/roast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents, mode: 'roast' }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setMessages(prev => [...prev, { role: 'model', text: `**SYSTEM ERROR:** ${data.error}` }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'model', text: data.text }]);
+      }
+    } catch (error: any) {
+      setMessages(prev => [...prev, { role: 'model', text: `**NETWORK ERROR:** ${error.message}` }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleReset = () => {
     setMessages([]);
     setPendingImages([]);
@@ -203,7 +261,12 @@ export default function RoastMode() {
              onReset={handleReset} 
              disabled={loading}
              mode="roast"
-          />
+          >
+            <DeskPlanner 
+               loading={loading}
+               onSubmit={handleDeskPlannerSubmit}
+            />
+          </ImagePanel>
 
           <ChatPanel 
              messages={messages} 

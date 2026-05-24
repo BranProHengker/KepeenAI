@@ -24,7 +24,7 @@ type ChatPanelProps = {
   setInput: (value: string) => void;
   onSend: () => void;
   loading: boolean;
-  mode?: 'roast' | 'compare';
+  mode?: 'roast' | 'compare' | 'rate-pc';
 };
 
 export default function ChatPanel({ messages, pendingImagesCount, input, setInput, onSend, loading, mode = 'roast' }: ChatPanelProps) {
@@ -37,35 +37,41 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  // Helper to extract all scores from the chat history for messages that still have active images
+  // Helper to extract all scores from the chat history
   const getScores = () => {
-    const scores: { index: number; score: string; isGlowUp: boolean }[] = [];
+    const scores: { index: number; score: string; isGlowUp: boolean; isPC: boolean }[] = [];
     let ratingCount = 0;
     
     for (let i = 0; i < messages.length; i++) {
       const msg = messages[i];
       if (msg.role === 'model') {
-        const scoreMatch = msg.text.match(/(?:STRUCTURAL SCORE|SCORE|GLOW-UP SCORE):[\s\*]*(\d+\/100(?:[\s\*]*\(?Tier\s+[SABCF]\)?)?)/i);
-        const isGlowUp = msg.text.match(/GLOW-UP SCORE/i);
+        const scoreMatch = msg.text.match(/(?:STRUCTURAL SCORE|SCORE|GLOW-UP SCORE|PC RATING):[\s\*]*(\d+(?:\/100|%)(?:[\s\*]*\(?Tier\s+[SABCF]\)?)?)/i);
+        const isGlowUp = /GLOW-UP SCORE/i.test(msg.text);
+        const isPC = /PC RATING/i.test(msg.text);
         
         if (scoreMatch) {
-          // Find the user message before this model message that had images
-          let hasImage = false;
-          for (let j = i - 1; j >= 0; j--) {
-            if (messages[j].role === 'user') {
-              if (messages[j].images && messages[j].images!.length > 0) {
-                hasImage = true;
+          // Find the user message before this model message
+          let isValid = false;
+          if (mode === 'rate-pc') {
+            isValid = true;
+          } else {
+            for (let j = i - 1; j >= 0; j--) {
+              if (messages[j].role === 'user') {
+                if (messages[j].images && messages[j].images!.length > 0) {
+                  isValid = true;
+                }
+                break; // Stop at the nearest user message
               }
-              break; // Stop at the nearest user message
             }
           }
           
-          if (hasImage) {
+          if (isValid) {
             ratingCount++;
             scores.push({
               index: ratingCount,
               score: scoreMatch[1],
-              isGlowUp: !!isGlowUp
+              isGlowUp,
+              isPC
             });
           }
         }
@@ -146,7 +152,7 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
               return (
                 <div className="text-right">
                   <span className="font-mono text-[10px] text-taupe block mb-0.5">
-                    {latestScore.isGlowUp ? 'GLOW-UP SCORE' : 'STRUCTURAL SCORE'}
+                    {latestScore.isPC ? 'PC RATING' : latestScore.isGlowUp ? 'GLOW-UP SCORE' : 'STRUCTURAL SCORE'}
                   </span>
                   <span className="font-sans text-[20px] md:text-[24px] font-bold text-deep-black leading-none whitespace-nowrap">
                     {latestScore.score}
@@ -213,7 +219,7 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
         {messages.map((msg, idx) => {
           let displayText = msg.text;
            if (msg.role === 'model') {
-             displayText = displayText.replace(/\*?\*?(?:STRUCTURAL SCORE|SCORE|GLOW-UP SCORE):\*?\*?[\s\*]*\d+\/100(?:[\s\*]*\(?Tier\s+[SABCF]\)?)?\*?\*?\n*/ig, '');
+             displayText = displayText.replace(/\*?\*?(?:STRUCTURAL SCORE|SCORE|GLOW-UP SCORE|PC RATING):\*?\*?[\s\*]*\d+(?:\/100|%)(?:[\s\*]*\(?Tier\s+[SABCF]\)?)?\*?\*?\n*/ig, '');
           }
 
           return (

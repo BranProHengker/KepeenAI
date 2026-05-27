@@ -13,7 +13,7 @@ type ImagePanelProps = {
 
 export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset, disabled, mode = 'roast', children }: ImagePanelProps) {
   return (
-    <div className={`w-full flex flex-col relative h-fit gap-4 ${mode === 'compare' ? '' : 'lg:sticky lg:top-8 lg:w-1/2'}`}>
+    <div className="w-full flex flex-col relative h-fit gap-4">
       <div className="flex justify-between items-end mb-2">
          <h2 className="font-mono text-[12.6px] font-semibold text-deep-black uppercase tracking-wider">
            Setup Reference {mode === 'compare' && <span className="text-charcoal font-normal text-[10px] ml-1">(COMPARE MODE)</span>}
@@ -88,7 +88,7 @@ export default function ImagePanel({ images, onDeleteImage, onAddImage, onReset,
           )}
         </div>
       ) : images.length > 0 ? (
-        <div className="flex flex-col gap-4">
+        <div className={`grid gap-4 ${images.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
           {images.map((img, idx) => (
             <div key={idx} className="relative group">
               <img src={img} alt={`Setup ${idx+1}`} className="w-full h-auto border border-taupe object-cover shadow-sm" loading="lazy" />

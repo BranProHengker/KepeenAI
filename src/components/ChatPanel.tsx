@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { MousePointer2, Download } from 'lucide-react';
+import { MousePointer2, Download, Flame, Wrench, Sparkles, Layout } from 'lucide-react';
 import type { Message } from '../types';
 import html2canvas from 'html2canvas';
 import RoastCard from './RoastCard';
@@ -16,6 +16,86 @@ const MarkdownComponents = {
   h2: (props: any) => <h2 className="font-mono text-lg font-bold mb-3 uppercase text-deep-black" {...props} />,
   h3: (props: any) => <h3 className="font-mono text-base font-bold mb-2 uppercase text-deep-black" {...props} />,
 };
+
+const SpecialRecommendComponents = {
+  ...MarkdownComponents,
+  ul: (props: any) => <div className="grid grid-cols-1 gap-4 mt-2" {...props} />,
+  li: (props: any) => (
+    <div className="border border-taupe bg-white p-5 shadow-[0px_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-deep-black transition-all flex gap-3.5 text-left">
+      <div className="flex-shrink-0 flex items-center gap-1.5 px-2 py-0.5 border border-deep-black bg-beige font-mono text-[9px] font-bold uppercase tracking-wider h-fit mt-0.5 select-none">
+        <Sparkles className="w-3 h-3 text-deep-black" />
+        <span>TIP</span>
+      </div>
+      <div className="font-sans text-[14px] text-charcoal leading-relaxed">
+        {props.children}
+      </div>
+    </div>
+  )
+};
+
+function ModelMessage({ text }: { text: string }) {
+  const recommendRegex = /(?:\n|(?:\r?\n)+)(?:\*?\*?(?:RECOMMENDED UPGRADES|REKOMENDASI UPGRADE|UPGRADE RECOMMENDATIONS|RECOMMENDATIONS|REKOMENDASI|UPGRADE ADVISOR RECOMMENDED UPGRADES|RECOMMENDED UPGRADES FOR SPECS):\*?\*?)/i;
+
+  const match = text.match(recommendRegex);
+  const [activeTab, setActiveTab] = useState<'roast' | 'recommend'>('roast');
+
+  if (!match) {
+    return <ReactMarkdown components={MarkdownComponents}>{text.trim()}</ReactMarkdown>;
+  }
+
+  const splitIndex = match.index!;
+  const matchLength = match[0].length;
+  
+  const roastText = text.substring(0, splitIndex).trim();
+  const recommendText = text.substring(splitIndex + matchLength).trim();
+
+  if (!recommendText) {
+    return <ReactMarkdown components={MarkdownComponents}>{text.trim()}</ReactMarkdown>;
+  }
+
+  const isDeskPlanner = /desk|meja|cable management|lighting|dekorasi/i.test(text);
+
+  return (
+    <div className="flex flex-col gap-4 border border-taupe bg-beige/40 p-4 md:p-6 shadow-sm rounded-sm">
+      <div className="flex border-b border-taupe">
+        <button
+          onClick={() => setActiveTab('roast')}
+          className={`px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-all border-b-2 -mb-[1px] flex items-center gap-2 ${
+            activeTab === 'roast'
+              ? 'border-deep-black text-deep-black bg-white border-t border-x border-taupe'
+              : 'border-transparent text-charcoal hover:text-deep-black'
+          }`}
+        >
+          <Flame className="w-3.5 h-3.5" />
+          ROAST
+        </button>
+        <button
+          onClick={() => setActiveTab('recommend')}
+          className={`px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-all border-b-2 -mb-[1px] flex items-center gap-2 ${
+            activeTab === 'recommend'
+              ? 'border-deep-black text-deep-black bg-white border-t border-x border-taupe'
+              : 'border-transparent text-charcoal hover:text-deep-black'
+          }`}
+        >
+          {isDeskPlanner ? <Layout className="w-3.5 h-3.5" /> : <Wrench className="w-3.5 h-3.5" />}
+          {isDeskPlanner ? 'RECOMMENDED LAYOUT' : 'RECOMMENDED UPGRADES'}
+        </button>
+      </div>
+
+      <div className="pt-2">
+        {activeTab === 'roast' ? (
+          <div className="prose prose-sm max-w-none text-charcoal leading-relaxed">
+            <ReactMarkdown components={MarkdownComponents}>{roastText}</ReactMarkdown>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <ReactMarkdown components={SpecialRecommendComponents}>{recommendText}</ReactMarkdown>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 type ChatPanelProps = {
   messages: Message[];
@@ -113,7 +193,7 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
   };
 
   return (
-    <div className={`w-full bg-beige p-0 border border-taupe flex flex-col ${messages.length === 0 ? 'h-fit' : 'h-[75vh] min-h-[600px]'} ${mode === 'compare' ? '' : 'lg:w-1/2'}`}>
+    <div className={`w-full bg-beige p-0 border border-taupe flex flex-col ${messages.length === 0 ? 'h-fit' : 'h-[75vh] min-h-[600px]'}`}>
       {/* Header */}
       <div className="border-b border-taupe p-5 bg-white flex flex-col gap-2">
         <div className="flex justify-between items-center w-full gap-4">
@@ -232,7 +312,7 @@ export default function ChatPanel({ messages, pendingImagesCount, input, setInpu
                 {msg.role === 'user' ? (
                   <p className="whitespace-pre-wrap">{msg.text || "(Image attached)"}</p>
                 ) : (
-                  <ReactMarkdown components={MarkdownComponents}>{displayText.trim()}</ReactMarkdown>
+                  <ModelMessage text={displayText.trim()} />
                 )}
               </div>
             </div>

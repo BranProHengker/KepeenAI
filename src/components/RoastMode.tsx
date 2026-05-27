@@ -252,7 +252,7 @@ export default function RoastMode() {
         </div>
       ) : (
         <div 
-          className="border border-taupe bg-white p-4 md:p-[32px] flex flex-col lg:flex-row gap-[32px] min-h-[70vh] shadow-[0px_4px_24px_rgba(0,0,0,0.04)]"
+          className="border border-taupe bg-white p-4 md:p-[32px] flex flex-col gap-[32px] min-h-[70vh] shadow-[0px_4px_24px_rgba(0,0,0,0.04)]"
         >
           <ImagePanel 
              images={allImages} 
